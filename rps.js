@@ -20,7 +20,7 @@ function update(score, playerWon) {
         playerScore.textContent = score;
     }
     else {
-        const cpuScore = document.querySelector('cpu-score');
+        const cpuScore = document.querySelector('.cpu-score');
         cpuScore.textContent = score;
     }
 
@@ -43,30 +43,32 @@ function computeChoiceOutcome(playerChoice, computerChoice) {
     else return playerWins;
 }
 
-function game() {
-    let playerPoints = 0;
-    let computerPoints = 0;
-    while (computerPoints < 5 && playerPoints < 5) {
-        let pc = getPlayerChoice();
+function game(e) {
+    const playerScore = document.querySelector('.player-score');
+    const cpuScore = document.querySelector('.cpu-score');
+
+    let computerPoints = cpuScore.textContent;
+    let playerPoints = playerScore.textContent;
+
+    if (computerPoints < 5 && playerPoints < 5) {
+        let pc = getPlayerChoice(e);
         let cc = getComputerChoice();
         let outcome = computeChoiceOutcome(pc, cc);
         if (outcome === computerWins) {
             console.log(`You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`);
-            computerPoints++;
+            update(++computerPoints, computerWins);
         }
         else if (outcome === playerWins) {
             console.log(`You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`);
-            playerPoints++;
+            update(++playerPoints, playerWins);
         }
         else console.log(`Tie! Both chose ${convertToRPS(cc)}`);
 
         console.log(`Player points: ${playerPoints}, Computer points: ${computerPoints}`);
     }
-    if (computerPoints === 5) console.log('Computer wins. You lose!');
+    else if (computerPoints === 5) console.log('Computer wins. You lose!');
     else console.log('Congratulations! You win!');
 }
 
 const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
-rpsBtns.forEach((btn) => btn.addEventListener('click', getPlayerChoice));
-
-console.log(rpsBtns);
+rpsBtns.forEach((btn) => btn.addEventListener('click', game));

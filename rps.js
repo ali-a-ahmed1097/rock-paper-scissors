@@ -66,8 +66,9 @@ function playGame(e) {
 
         console.log(`Player points: ${playerPoints}, Computer points: ${computerPoints}`);
     }
-    else if (computerPoints === 5) console.log('Computer wins. You lose!');
-    else console.log('Congratulations! You win!');
+    
+    if (computerPoints === 5) console.log('Computer wins. You lose!');
+    else if (playerPoints == 5) console.log('Congratulations! You win!');
 }
 
 function createButton(btnClass, parentClass, btnText) {
@@ -79,6 +80,18 @@ function createButton(btnClass, parentClass, btnText) {
     parent.appendChild(btn);
 }
 
+function scoreListPopulate(l, name, scoreClass) {
+    const points = document.createElement('li');
+    points.textContent = 0;
+    points.classList.add(scoreClass);
+    
+    const pName = document.createElement('li');
+    pName.textContent = name;
+
+    l.appendChild(points);
+    l.appendChild(pName);
+}
+
 function createGame() {
     createButton('rock', '.game-buttons', 'Rock');
     createButton('paper', '.game-buttons', 'Paper');
@@ -86,6 +99,23 @@ function createGame() {
 
     const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
     rpsBtns.forEach((btn) => btn.addEventListener('click', playGame));
+
+    const score = document.querySelector('.score');
+
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Current score';
+    score.appendChild(h2);
+
+    const playerUL = document.createElement('ul');
+    const computerUL = document.createElement('ul');
+
+    scoreListPopulate(playerUL, 'You', 'player-score');
+    scoreListPopulate(computerUL, 'Computer', 'cpu-score');
+    score.appendChild(playerUL);
+    score.appendChild(computerUL);
+    
+
+    createButton('log-button', '.log', 'Show Log');
 }
 
 

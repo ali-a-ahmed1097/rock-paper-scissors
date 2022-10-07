@@ -28,7 +28,6 @@ function update(score, playerWon) {
 
 function getPlayerChoice(e) {
     let choice = e.target.classList[0];
-    console.log(choice);
     if (choice === 'rock') return ROCK;
     else if (choice === 'paper') return PAPER;
     else if (choice === 'scissors') return SCISSORS;
@@ -54,21 +53,27 @@ function playGame(e) {
         let pc = getPlayerChoice(e);
         let cc = getComputerChoice();
         let outcome = computeChoiceOutcome(pc, cc);
+
+        const scrollDiv = document.querySelector('.scroll');
+        const add = document.createElement('p');
+
         if (outcome === computerWins) {
-            console.log(`You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`);
             update(++computerPoints, computerWins);
+            add.textContent = `You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`;
+            scrollDiv.prepend(add);
         }
         else if (outcome === playerWins) {
-            console.log(`You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`);
             update(++playerPoints, playerWins);
+            add.textContent = `You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`;
+            scrollDiv.prepend(add);
         }
-        else console.log(`Tie! Both chose ${convertToRPS(cc)}`);
-
-        console.log(`Player points: ${playerPoints}, Computer points: ${computerPoints}`);
+        else {
+            add.textContent = `Tie! Both chose ${convertToRPS(cc)}`;
+            scrollDiv.prepend(add);
+        }
     }
 
     if (computerPoints === 5) {
-        console.log('Computer wins. You lose!');
         endGame('Computer wins. You lose!')
     } 
     else if (playerPoints == 5) {
@@ -124,6 +129,10 @@ function createGame() {
 
     const h1 = document.querySelector('h1');
     h1.textContent = "Rock, Paper, Scissors";
+
+    const scrollDiv = document.querySelector('#scroll');
+    scrollDiv.innerHTML = "";
+    scrollDiv.classList.contains('scroll') ? null : scrollDiv.classList.add('scroll');
 }
 
 function endGame(winner) {

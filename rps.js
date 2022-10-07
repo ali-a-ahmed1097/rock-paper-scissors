@@ -66,9 +66,15 @@ function playGame(e) {
 
         console.log(`Player points: ${playerPoints}, Computer points: ${computerPoints}`);
     }
-    
-    if (computerPoints === 5) console.log('Computer wins. You lose!');
-    else if (playerPoints == 5) console.log('Congratulations! You win!');
+
+    if (computerPoints === 5) {
+        console.log('Computer wins. You lose!');
+        endGame('Computer wins. You lose!')
+    } 
+    else if (playerPoints == 5) {
+        console.log('Congratulations! You win!');
+        endGame('Congratulations! You win!');
+    }
 }
 
 function createButton(btnClass, parentClass, btnText) {
@@ -84,7 +90,7 @@ function scoreListPopulate(l, name, scoreClass) {
     const points = document.createElement('li');
     points.textContent = 0;
     points.classList.add(scoreClass);
-    
+
     const pName = document.createElement('li');
     pName.textContent = name;
 
@@ -113,11 +119,35 @@ function createGame() {
     scoreListPopulate(computerUL, 'Computer', 'cpu-score');
     score.appendChild(playerUL);
     score.appendChild(computerUL);
-    
 
     createButton('log-button', '.log', 'Show Log');
+
+    const h1 = document.querySelector('h1');
+    h1.textContent = "Rock, Paper, Scissors";
 }
 
+function endGame(winner) {
+    const gameBtns = document.querySelector('.game-buttons');
+    const scoreDiv = document.querySelector('.score');
+    const logDiv = document.querySelector('.log');
+
+    gameBtns.innerHTML = "";
+    scoreDiv.innerHTML = "";
+    logDiv.innerHTML = "";
+
+    const winnerText = document.createElement('p');
+    winnerText.textContent = winner;
+    gameBtns.append(winnerText);
+
+    createButton('reset', '.game-buttons', 'Start New Game');
+
+    const reset = document.querySelector('.reset');
+    reset.addEventListener('click', function () {
+        const gameBtns = document.querySelector('.game-buttons');
+        gameBtns.innerHTML = "";
+        createGame();
+    });
+}
 
 
 const start = document.querySelector('.start-game');

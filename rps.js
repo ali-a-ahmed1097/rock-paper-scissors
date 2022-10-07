@@ -14,31 +14,39 @@ function getComputerChoice() {
     return Math.floor(Math.random() * 3) + 1;
 }
 
-function getPlayerChoice() {
-    while (true) {
-        let choice = prompt('Rock, Paper, or Scissors?');
-        choice = choice.toLowerCase();
-        console.log(choice);
-        if (choice === 'rock') return ROCK;
-        else if (choice === 'paper') return PAPER;
-        else if (choice === 'scissors') return SCISSORS;
+function update(score, playerWon) {
+    if (playerWon) {
+        const playerScore = document.querySelector('.player-score');
+        playerScore.textContent = score;
     }
+    else {
+        const cpuScore = document.querySelector('cpu-score');
+        cpuScore.textContent = score;
+    }
+
+}
+
+function getPlayerChoice(e) {
+    let choice = e.target.classList[0];
+    console.log(choice);
+    if (choice === 'rock') return ROCK;
+    else if (choice === 'paper') return PAPER;
+    else if (choice === 'scissors') return SCISSORS;
 }
 
 function computeChoiceOutcome(playerChoice, computerChoice) {
     if (playerChoice === computerChoice) return -1;
     else if ((playerChoice === ROCK && computerChoice === PAPER)
         || (playerChoice === SCISSORS && computerChoice === ROCK)
-        || (playerChoice === PAPER && computerChoice === SCISSORS)) 
-            return computerWins;
+        || (playerChoice === PAPER && computerChoice === SCISSORS))
+        return computerWins;
     else return playerWins;
 }
 
 function game() {
     let playerPoints = 0;
     let computerPoints = 0;
-    while (computerPoints < 5 && playerPoints < 5)
-    {
+    while (computerPoints < 5 && playerPoints < 5) {
         let pc = getPlayerChoice();
         let cc = getComputerChoice();
         let outcome = computeChoiceOutcome(pc, cc);
@@ -46,8 +54,7 @@ function game() {
             console.log(`You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`);
             computerPoints++;
         }
-        else if (outcome === playerWins)
-        { 
+        else if (outcome === playerWins) {
             console.log(`You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`);
             playerPoints++;
         }
@@ -58,3 +65,8 @@ function game() {
     if (computerPoints === 5) console.log('Computer wins. You lose!');
     else console.log('Congratulations! You win!');
 }
+
+const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
+rpsBtns.forEach((btn) => btn.addEventListener('click', getPlayerChoice));
+
+console.log(rpsBtns);

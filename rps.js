@@ -91,4 +91,7 @@ function createGame() {
 
 
 const start = document.querySelector('.start-game');
-start.addEventListener('click', createGame)
+start.addEventListener('click', function () {
+    createGame();
+    start.remove();
+});

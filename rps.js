@@ -43,7 +43,7 @@ function computeChoiceOutcome(playerChoice, computerChoice) {
     else return playerWins;
 }
 
-function game(e) {
+function playGame(e) {
     const playerScore = document.querySelector('.player-score');
     const cpuScore = document.querySelector('.cpu-score');
 
@@ -70,5 +70,25 @@ function game(e) {
     else console.log('Congratulations! You win!');
 }
 
-const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
-rpsBtns.forEach((btn) => btn.addEventListener('click', game));
+function createButton(btnClass, parentClass, btnText) {
+    const parent = document.querySelector(parentClass);
+    const btn = document.createElement('button');
+    btn.classList.add(btnClass);
+    btn.textContent = btnText;
+
+    parent.appendChild(btn);
+}
+
+function createGame() {
+    createButton('rock', '.game-buttons', 'Rock');
+    createButton('paper', '.game-buttons', 'Paper');
+    createButton('scissors', '.game-buttons', 'Scissors');
+
+    const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
+    rpsBtns.forEach((btn) => btn.addEventListener('click', playGame));
+}
+
+
+
+const start = document.querySelector('.start-game');
+start.addEventListener('click', createGame)

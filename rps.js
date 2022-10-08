@@ -6,6 +6,8 @@ const playerWins = 1;
 
 let moveNumber = 1;
 
+let movesLog = [];
+
 function convertToRPS(rps) {
     if (rps === ROCK) return 'Rock';
     else if (rps === PAPER) return 'Paper';
@@ -61,16 +63,19 @@ function playGame(e) {
 
         if (outcome === computerWins) {
             update(++computerPoints, computerWins);
-            add.textContent = `${moveNumber}: You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`;
+            movesLog.unshift(`${moveNumber}: You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`);
+            add.textContent = movesLog[0];
             scrollDiv.prepend(add);
         }
         else if (outcome === playerWins) {
             update(++playerPoints, playerWins);
-            add.textContent = `${moveNumber}: You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`;
+            movesLog.unshift(`${moveNumber}: You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`);
+            add.textContent = movesLog[0];
             scrollDiv.prepend(add);
         }
         else {
-            add.textContent = `${moveNumber}: Tie! Both chose ${convertToRPS(cc)}`;
+            movesLog.unshift(`${moveNumber}: Tie! Both chose ${convertToRPS(cc)}`);
+            add.textContent = movesLog[0];
             scrollDiv.prepend(add);
         }
 
@@ -105,6 +110,27 @@ function scoreListPopulate(l, name, scoreClass) {
 
     l.appendChild(points);
     l.appendChild(pName);
+}
+
+function displayLog() {
+    const logBtn = document.querySelector('.log-button');
+    const scrollDiv = document.querySelector('#scroll');
+
+    if (logBtn.textContent === 'Hide log') {
+        scrollDiv.innerHTML = "";
+        scrollDiv.classList.remove('scroll');
+        logBtn.textContent = 'Show log';
+    }
+    else {
+        logBtn.textContent = 'Hide log'
+        scrollDiv.classList.add('scroll');
+
+        movesLog.forEach(function (l) {
+            const add = document.createElement('p');
+            add.textContent = l;
+            scrollDiv.append(add);
+        });
+    }
 }
 
 function createGame() {
@@ -142,7 +168,10 @@ function createGame() {
     ulDiv.appendChild(computerUL);
     score.appendChild(ulDiv);
 
-    createButton('log-button', '.log', 'Show Log');
+    createButton('log-button', '.log', 'Hide log');
+
+    const logBtn = document.querySelector('.log');
+    logBtn.addEventListener('click', displayLog);
 
     const h1 = document.querySelector('h1');
     h1.textContent = "Rock, Paper, Scissors";

@@ -4,3 +4,42 @@
     width: 400px;
     overflow: scroll;
 }
+
+.game-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.hover-over {
+    background-color: greenyellow;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    border: 1px solid black;
+    flex: 0 1 10em;
+}
+
+li {
+    text-align: center;
+}
+
+.scorecard {
+    display: flex;
+    justify-content: center;
+    margin: 16px;
+}
+
+.cpu-score, .player-score {
+    background-color: lightblue;
+}
+
+h2 {
+    text-align: center;
+}

@@ -112,21 +112,34 @@ function createGame() {
     createButton('scissors', '.game-buttons', 'Scissors');
 
     const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
-    rpsBtns.forEach((btn) => btn.addEventListener('click', playGame));
+    rpsBtns.forEach(function (btn) { 
+        btn.addEventListener('click', playGame);
+        btn.addEventListener('mouseover', function (){
+            btn.classList.add('hover-over');
+        });
+        btn.addEventListener('mouseout', function (){
+            btn.classList.remove('hover-over');
+        });
+    });
 
     const score = document.querySelector('.score');
+    score.innerHTML = "";
 
     const h2 = document.createElement('h2');
-    h2.textContent = 'Current score';
+    h2.textContent = 'Score';
     score.appendChild(h2);
 
+    const ulDiv = document.createElement('div');
     const playerUL = document.createElement('ul');
     const computerUL = document.createElement('ul');
 
+    ulDiv.classList.add('scorecard');
+
     scoreListPopulate(playerUL, 'You', 'player-score');
     scoreListPopulate(computerUL, 'Computer', 'cpu-score');
-    score.appendChild(playerUL);
-    score.appendChild(computerUL);
+    ulDiv.appendChild(playerUL);
+    ulDiv.appendChild(computerUL);
+    score.appendChild(ulDiv);
 
     createButton('log-button', '.log', 'Show Log');
 
@@ -136,27 +149,33 @@ function createGame() {
     const scrollDiv = document.querySelector('#scroll');
     scrollDiv.innerHTML = "";
     scrollDiv.classList.contains('scroll') ? null : scrollDiv.classList.add('scroll');
+
+    moveNumber = 1;
 }
 
 function endGame(winner) {
     const gameBtns = document.querySelector('.game-buttons');
-    const scoreDiv = document.querySelector('.score');
+    const startBtns = document.querySelector('.start');
+    // const scoreDiv = document.querySelector('.score');
     const logDiv = document.querySelector('.log');
+    const scrollDiv = document.querySelector('#scroll');
 
     gameBtns.innerHTML = "";
-    scoreDiv.innerHTML = "";
+    // scoreDiv.innerHTML = "";
     logDiv.innerHTML = "";
+    scrollDiv.innerHTML = "";
+    scrollDiv.classList.remove('scroll');
 
     const winnerText = document.createElement('p');
     winnerText.textContent = winner;
-    gameBtns.append(winnerText);
+    startBtns.append(winnerText);
 
-    createButton('reset', '.game-buttons', 'Start New Game');
+    createButton('reset', '.start', 'Start New Game');
 
     const reset = document.querySelector('.reset');
     reset.addEventListener('click', function () {
-        const gameBtns = document.querySelector('.game-buttons');
-        gameBtns.innerHTML = "";
+        const startBtns = document.querySelector('.start');
+        startBtns.innerHTML = "";
         createGame();
     });
 }

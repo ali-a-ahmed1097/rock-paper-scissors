@@ -4,6 +4,8 @@ const SCISSORS = 3;
 const computerWins = 0;
 const playerWins = 1;
 
+let moveNumber = 1;
+
 function convertToRPS(rps) {
     if (rps === ROCK) return 'Rock';
     else if (rps === PAPER) return 'Paper';
@@ -59,25 +61,26 @@ function playGame(e) {
 
         if (outcome === computerWins) {
             update(++computerPoints, computerWins);
-            add.textContent = `You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`;
+            add.textContent = `${moveNumber}: You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`;
             scrollDiv.prepend(add);
         }
         else if (outcome === playerWins) {
             update(++playerPoints, playerWins);
-            add.textContent = `You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`;
+            add.textContent = `${moveNumber}: You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`;
             scrollDiv.prepend(add);
         }
         else {
-            add.textContent = `Tie! Both chose ${convertToRPS(cc)}`;
+            add.textContent = `${moveNumber}: Tie! Both chose ${convertToRPS(cc)}`;
             scrollDiv.prepend(add);
         }
+
+        moveNumber++;
     }
 
     if (computerPoints === 5) {
         endGame('Computer wins. You lose!')
     } 
     else if (playerPoints == 5) {
-        console.log('Congratulations! You win!');
         endGame('Congratulations! You win!');
     }
 }

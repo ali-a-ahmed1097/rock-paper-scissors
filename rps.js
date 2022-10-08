@@ -100,6 +100,7 @@ function scoreListPopulate(l, name, scoreClass) {
     points.classList.add(scoreClass);
 
     const pName = document.createElement('li');
+    pName.setAttribute('style', 'background-color: white;');
     pName.textContent = name;
 
     l.appendChild(points);

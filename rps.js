@@ -59,22 +59,22 @@ function playGame(e) {
         let outcome = computeChoiceOutcome(pc, cc);
 
         const scrollDiv = document.querySelector('.scroll');
-        const add = document.createElement('p');
 
         if (outcome === computerWins) {
             update(++computerPoints, computerWins);
             movesLog.unshift(`${moveNumber}: You lose! ${convertToRPS(cc)} beats ${convertToRPS(pc)}`);
-            add.textContent = movesLog[0];
-            scrollDiv.prepend(add);
         }
         else if (outcome === playerWins) {
             update(++playerPoints, playerWins);
             movesLog.unshift(`${moveNumber}: You win! ${convertToRPS(pc)} beats ${convertToRPS(cc)}`);
-            add.textContent = movesLog[0];
-            scrollDiv.prepend(add);
         }
         else {
             movesLog.unshift(`${moveNumber}: Tie! Both chose ${convertToRPS(cc)}`);
+
+        }
+
+        if (scrollDiv) {
+            const add = document.createElement('p');
             add.textContent = movesLog[0];
             scrollDiv.prepend(add);
         }
@@ -84,7 +84,7 @@ function playGame(e) {
 
     if (computerPoints === 5) {
         endGame('Computer wins. You lose!')
-    } 
+    }
     else if (playerPoints == 5) {
         endGame('Congratulations! You win!');
     }
@@ -139,12 +139,12 @@ function createGame() {
     createButton('scissors', '.game-buttons', 'Scissors');
 
     const rpsBtns = document.querySelectorAll('.rock, .paper, .scissors');
-    rpsBtns.forEach(function (btn) { 
+    rpsBtns.forEach(function (btn) {
         btn.addEventListener('click', playGame);
-        btn.addEventListener('mouseover', function (){
+        btn.addEventListener('mouseover', function () {
             btn.classList.add('hover-over');
         });
-        btn.addEventListener('mouseout', function (){
+        btn.addEventListener('mouseout', function () {
             btn.classList.remove('hover-over');
         });
     });
